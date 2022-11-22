@@ -4,7 +4,7 @@ RUN apt-get update && apt-get -y upgrade
 RUN apt-get install -y --fix-missing --no-install-recommends \
     debconf build-essential autoconf \
     curl dirmngr apt-transport-https lsb-release ca-certificates \
-    python3 python3-setuptools python3-pip
+    python3 python3-setuptools python3-pip 
 # install latex dependencies
 # if timezone is not setup texlive-latex-base can not be installed
 RUN ln -snf /usr/share/zoneinfo/Etc/UTC /etc/localtime \
@@ -15,8 +15,10 @@ RUN apt-get install -y --fix-missing --no-install-recommends \
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y --fix-missing --no-install-recommends nodejs
 RUN python3 -m pip -q install pip --upgrade
-RUN python3 -m pip install numpy h5py tensorflow
+# Now giving explicit versions for all Python packages
+RUN python3 -m pip install numpy==1.21.6 h5py==3.7.0 tensorflow==1.15.0 protobuf==3.20.* 
 RUN python3 -m pip install jupyterlab==2.3.1
+RUN ln -s /usr/lib/python3.7/site-packages/gast /usr/lib/python3.7/gast # Why is gast installed into a directory in which the Python3 interpreter doesn't look by default? Weird....
 # RUN useradd -ms /bin/bash jupyter
 # USER jupyter
 RUN julia -e 'using Pkg; Pkg.add.([ \

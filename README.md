@@ -59,3 +59,20 @@ Run the below command to start a jupyter lab instance which will allow you to ru
 ```shell
 docker run -it --rm --mount src="$PWD",target=/code,type=bind -p 8888:8888 hcas jupyter lab --port 8888 --no-browser --ip 0.0.0.0 --allow-root
 ```
+
+## Preparing all data for the Jupyter notebooks
+The following commands prepares all tables, learns the networks, and generates symbolic links to folders so that all input data is found by the notebooks and scripts
+
+```
+docker build . -t hcas
+docker run -it --rm --mount src="$PWD",target=/code,type=bind hcas bash
+```
+
+In the bash instance inside the Docker instance(?), run:
+```
+cd GenerateTable; mkdir Qtables; julia -p 4 SolveMDP.jl; cd ..; ln -s GenerateTable/Qtables Qtables
+mkdir TrainingData; python3 GenerateNetworks/genTrainingData.py
+cd GenerateNetworks; ln -s ../TrainingData TrainingData; mkdir -p networks; ./TrainAll.sh; cd ..
+ln -s GenerateNetworks/networks networks
+```
+
