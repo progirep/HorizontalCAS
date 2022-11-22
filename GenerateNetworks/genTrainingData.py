@@ -4,11 +4,11 @@ import numpy as np
 ###### OPTIONS #######
 tableFile = './Qtables/HCAS_oneSpeed_v6.h5'
 trainingDataFiles = './TrainingData/HCAS_rect_TrainingData_v6_pra%d_tau%02d.h5'
-useRect = True      # Set to true to use rectangular coordinates (x,y) instead of polar coordinates(rho,theta) 
+useRect = False      # Set to true to use rectangular coordinates (x,y) instead of polar coordinates(rho,theta) 
                     # as inputs to neural network. Changing to rectangular coordinates was used to ease reachability equations.
                     # The two coordinate systems are related using: x = rho * cos(theta), y = rho * sin(theta)
                     # 
-oneSpeed = True     # If the speed dimension has only one value, set to True to remove the speed dimensions from network input
+oneSpeed = False     # If the speed dimension has only one value, set to True to remove the speed dimensions from network input
                     # If true, the neural network will have only three inputs: x, y, psi if useRect, or rho, theta, psi otherwise.
                     # If false, neural network will five inputs: x, y, psi, vown, vint if useRect, or rho, theta, psi, vown, vint otherwise
 saveTaus = [0,5,10,15,20,30,40,60] # Tau values at which neural networks will be trained
